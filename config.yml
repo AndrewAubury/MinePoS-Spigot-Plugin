@@ -1,27 +1,29 @@
 ############################
-#       MinePoS v1.0       #
+#       MinePoS v1.0.1     #
 #    Thank you For Using   #
 #         MinePoS          #
 ############################
 
 
 API:
-   #If you are running MinePoS Lite please enter your link given to you in your admin panel
+   # If you are running MinePoS Lite please enter your link given to you in your admin panel
    Link: "http://serverid.minepos.me/index.php&r=api/api"
    Key: "APIKEYHERE"
 
-Messages:
-   prefix: "&4&lMine&7&lPoS&r "
-   error: "Sorry there was a error please contact a member of staff"
-   noperm: "Sorry you do not have access to run this command"
-   success: "Thank you %player%, Your donation has been processed and you should have received your items"
-   open: "Opened the store"
-   linkwait: "Please wait while we generate your link"
-   link: "Your Link is: &5%link%"
+messages:
+   prefix: "&7[&cMinePoS&7]&r "
+   error: "&7Sorry there was a error please contact a member of staff"
+   noperm: "&7Sorry you do not have access to run this command"
+   success: "&7Thank you &c%player%&7, Your donation has been processed and you should have received your items"
+   open: "&7Opened the store"
+   linkwait: "&7Please wait while we generate your link"
+   link: "&7Your Link is: &c%link%"
+   # Set this to true to enable debug output in console
+   debug: false
 
-Settings:
-   #How often should the plugin look for new orders to be processed (in mins)
-   #Default: 2
-   #Recommended: 2
+settings:
+   # How often should the plugin look for new orders to be processed (in mins)
+   # Default: 2
+   # Recommended: 2
    pollingrate: 2
    command: "buy"
