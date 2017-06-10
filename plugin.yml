@@ -1,0 +1,11 @@
+name: MinePoS
+version: 1.0.2
+description: This Plugin Links to your MinePoS Store
+authors: [AndrewAubury, PiggyPiglet]
+website: https://minepos.net/
+main: net.MinePoS.Main
+commands:
+  buy:
+    description: Open the server store
+  minepos:
+    description: MinePoS Admin Command
