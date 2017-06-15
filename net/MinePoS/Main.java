@@ -6,7 +6,6 @@ import net.MinePoS.GUI.Events;
 import net.MinePoS.GUI.ShopInv;
 import net.MinePoS.Handlers.ChatHandler;
 import net.MinePoS.Handlers.ConfigHandler;
-import net.MinePoS.Objects.MinePoSSender;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -19,11 +18,13 @@ import java.io.File;
  */
 public class Main extends JavaPlugin {
     private static Main myinstance;
+    public WebCalls API;
+    public ShopInv shopinv;
+
     public static Main getInstance(){
         return myinstance;
     }
-    public WebCalls API;
-    public ShopInv shopinv;
+
     public void onEnable() {
         createConfig();
         getConfig();
@@ -33,16 +34,20 @@ public class Main extends JavaPlugin {
         ConfigHandler conf = new ConfigHandler();
         API = new WebCalls(conf.getAPILink(),conf.getAPIKey());
         API.getGroups();
-        //getServer().getLogger().info("There are "+ Items.getInstance().AmtOfGroups() + " Groups on the MinePoSCommand Store");
+        getServer().getLogger().info("There are " + ShopInv.getInstance().catInvs.size() + " Groups on the MinePoSCommand Store");
         getServer().getPluginManager().registerEvents(new Events(), this);
         getCommand("minepos").setExecutor(new MinePoSCommand());
+
+    }
+
+    private void startPolling() {
+
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             @Override
             public void run() {
                 Main.getInstance().API.getWaiting();
             }
-        },(20*60)*2,(20*60)*2);
-
+        }, (20 * 60) * getConfig().getInt("settings.pollingrate"), (20 * 60) * getConfig().getInt("settings.pollingrate"));
     }
     private void createConfig() {
         try {
@@ -61,10 +66,10 @@ public class Main extends JavaPlugin {
     }
 
     public void command(String cmd){
-        getServer().dispatchCommand(new MinePoSSender(),cmd);
+        getServer().dispatchCommand(getServer().getConsoleSender(), cmd);
     }
     public void command(String Order,String cmd){
-        getServer().dispatchCommand(new MinePoSSender(Order),cmd);
+        getServer().dispatchCommand(getServer().getConsoleSender(), cmd);
     }
 
     @Override

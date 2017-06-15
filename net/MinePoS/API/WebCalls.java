@@ -33,7 +33,7 @@ public class WebCalls {
         api_key = key;
 
 
-        if (canConnect()) {
+        if (!canConnect()) {
             Main.getInstance().getLogger().severe("Error While Connecting to the API!: " + error);
             Main.getInstance().getLogger().severe("Now Disabling");
             Main.getInstance().getServer().getPluginManager().disablePlugin(Main.getInstance());

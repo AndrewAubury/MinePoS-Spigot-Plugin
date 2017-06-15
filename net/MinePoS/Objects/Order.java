@@ -13,6 +13,7 @@ public class Order {
     private int OrderID;
 
     public Order(int id, String commandsSTR, int orderid){
+        //Main.getInstance().getLogger().info("Order Created!");
         ID = id;
         commands = commandsToArray(commandsSTR);
         OrderID = orderid;
@@ -46,7 +47,7 @@ public class Order {
 
     public void run() {
         for(String cmd : commands){
-            //Main.getInstance().getServer().broadcastMessage(cmd);
+            Main.getInstance().getServer().broadcastMessage(cmd);
             Main.getInstance().command(cmd);
         }
 
