@@ -17,7 +17,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 public class Events implements Listener{
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
-        if (e.getClickedInventory().getTitle().equalsIgnoreCase("MinePoSCommand Store") && e.getClickedInventory().getLocation() == null) {
+        if (e.getClickedInventory().getTitle().equalsIgnoreCase("MinePoSCommand Store")) {
             if (e.getCurrentItem() != null && e.getCurrentItem().getItemMeta() != null && e.getCurrentItem().getItemMeta().getDisplayName() != null) {
                 e.setCancelled(true);
                 Group g = Main.getInstance().shopinv.catInvs.get(e.getCurrentItem().getItemMeta().getDisplayName());
@@ -26,8 +26,7 @@ public class Events implements Listener{
             }
 
         } else if (e.getClickedInventory().getTitle().startsWith("MinePoSCommand: ")
-                && Main.getInstance().shopinv.catInvs.containsKey(e.getClickedInventory().getName().replace("MinePoSCommand: ", ""))
-                && e.getClickedInventory().getLocation() == null) {
+                && Main.getInstance().shopinv.catInvs.containsKey(e.getClickedInventory().getName().replace("MinePoSCommand: ", ""))) {
 
             if (e.getCurrentItem() != null && e.getCurrentItem().getItemMeta() != null && e.getCurrentItem().getItemMeta().getDisplayName() != null) {
                 Player p = (Player) e.getWhoClicked();

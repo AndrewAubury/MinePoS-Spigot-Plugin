@@ -1,6 +1,5 @@
 package net.MinePoS.Objects;
 
-import net.MinePoS.Main;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
@@ -39,6 +38,7 @@ public class Package {
         MaterialData data = is.getData();
         data.setData(Byte.valueOf(itemdata));
         is.setData(data);
+        is.setDurability(Short.parseShort(itemdata));
         ItemMeta im = is.getItemMeta();
         im.setDisplayName(name);
         ArrayList<String> lore = new ArrayList<>();

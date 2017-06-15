@@ -1,15 +1,11 @@
 package net.MinePoS.Objects;
 
 
-import net.MinePoS.API.WebCalls;
-import net.MinePoS.GUI.ShopInv;
 import net.MinePoS.Main;
-import org.apache.logging.log4j.core.lookup.WebLookup;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.MaterialData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -20,16 +16,16 @@ import java.util.HashMap;
  * Created by Andrew on 07/06/2017.
  */
 public class Group {
+    Inventory groupInv;
+    HashMap<String, Package> StrToPackage;
+    HashMap<Integer, Package> IDToPackage;
+    ArrayList<ItemStack> items;
     private int id;
     private String name;
     private String itemid;
     private String itemdata;
     private String smalldesc;
     private ItemStack item;
-    Inventory groupInv;
-    HashMap<String, Package> StrToPackage;
-    HashMap<Integer, Package> IDToPackage;
-    ArrayList<ItemStack> items;
 
     public Group(int id, String name, String itemid, String itemdata, String smalldesc) {
         this.id = id;
@@ -56,7 +52,7 @@ public class Group {
         for (int i = 0; i < groups.length(); i++) {
             JSONObject row = groups.getJSONObject(i);
             int id = row.getInt("ID");
-            String cost = row.getString("Cost");;
+            String cost = row.getString("Cost");
             String currency = row.getString("Currency");
             String name = row.getString("Name");
             String itemid = row.getString("ItemID");
@@ -87,10 +83,8 @@ public class Group {
 
     private void makeItem() {
         ItemStack is = new ItemStack(Integer.parseInt(itemid),1);
-        MaterialData md = is.getData();
-        md.setData(Byte.parseByte(itemdata));
-        is.setData(md);
         ItemMeta im = is.getItemMeta();
+        is.setDurability(Short.parseShort(itemdata));
         im.setDisplayName(name);
         ArrayList<String> lore = new ArrayList<>();
         lore.add(smalldesc);
