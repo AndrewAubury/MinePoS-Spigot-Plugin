@@ -1,11 +1,11 @@
 package net.MinePoS.API;
 
-import net.MinePoS.GUI.ShopInv;
 import net.MinePoS.Main;
 import net.MinePoS.Objects.Group;
 import net.MinePoS.Objects.Items;
 import net.MinePoS.Objects.Order;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -14,29 +14,31 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 
 /**
  * Created by Andrew on 06/06/2017.
+ * For calling the MinePoS API
  */
 public class WebCalls {
 
     private String api_link = "";
     private String api_key = "";
+    private String name = "";
+    private String error = "";
 
     public WebCalls(String link, String key){
         api_link = link;
         api_key = key;
 
-        String con = canConnect();
-        if(con == null){
-            Main.getInstance().getLogger().severe("Error While Connecting to the API! Will now disable Plugin");
+
+        if (canConnect()) {
+            Main.getInstance().getLogger().severe("Error While Connecting to the API!: " + error);
+            Main.getInstance().getLogger().severe("Now Disabling");
             Main.getInstance().getServer().getPluginManager().disablePlugin(Main.getInstance());
         }else{
-            Main.getInstance().getLogger().info("Connected to the API as the server: "+con);
+            Main.getInstance().getLogger().info("Connected to the API as the server: " + name);
         }
     }
 
@@ -55,18 +57,32 @@ public void getGroups(){
         String smalldesc = row.getString("Desc");
         Group g = new Group(id, name, itemid, itemdata,smalldesc);
         Items.getInstance().storeGroup(g);
-        Main.getInstance().shopinv.catInvs = new HashMap<String, Group>();
+        Main.getInstance().shopinv.catInvs = new HashMap<>();
         Main.getInstance().shopinv.catInvs.put(g.getName(),g);
     }
     Main.getInstance().shopinv.makeInventory();
 }
-public String canConnect(){
+
+    private Boolean canConnect() {
     String res = makeCall("");
     if(res == null){
-        return null;
+        error = "Empty reply from api";
+        return false;
     }
-
-    return new JSONObject(res).getString("server");
+        JSONObject jo;
+        try {
+            jo = new JSONObject(res);
+        } catch (JSONException e) {
+            error = "Invalid JSON reply from api";
+            return false;
+        }
+        if (jo.getString("error").equalsIgnoreCase("No Action Given")) {
+            name = jo.getString("server");
+            return true;
+        } else {
+            error = jo.getString("error");
+            return false;
+        }
 }
 
 public String makeCall(String args){
