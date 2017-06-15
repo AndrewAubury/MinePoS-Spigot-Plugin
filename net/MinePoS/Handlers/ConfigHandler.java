@@ -10,7 +10,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 public class ConfigHandler {
     public String getMessage(Messages m){
         FileConfiguration config = Main.getInstance().getConfig();
-        return config.getString("Messages."+m.toString());
+        return config.getString("messages." + m.toString());
     }
     public String getAPILink(){
         FileConfiguration config = Main.getInstance().getConfig();
