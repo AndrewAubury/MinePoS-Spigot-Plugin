@@ -41,7 +41,7 @@ public class Main extends JavaPlugin {
     }
 
     private void startPolling() {
-
+        getServer().getScheduler().cancelTasks(this);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             @Override
             public void run() {

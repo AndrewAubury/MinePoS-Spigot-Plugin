@@ -89,14 +89,19 @@ public String makeCall(String args){
     return executePost(api_link+"&apikey="+api_key+"&"+args);
 }
 public String makeLink(String PlayerName, Integer id){
-    String res = makeCall("action=createlink&playername="+PlayerName+"&PackageID="+id);
-    //Main.getInstance().getLogger().info("Result: "+res);
-    JSONObject resjo = new JSONObject(res);
-    String link = resjo.getString("link");
-    if(link != null){
-        return link;
+    try {
+        String res = makeCall("action=createlink&playername=" + PlayerName + "&PackageID=" + id);
+        //Main.getInstance().getLogger().info("Result: "+res);
+        JSONObject resjo = new JSONObject(res);
+        String link = resjo.getString("link");
+        if (link != null) {
+            return link;
+        }
+        return "{\"error\":\"Could not run the web call!\"}";
+    } catch (Exception e) {
+        e.getMessage();
+        return "{\"error\":\"Could not run the web call!\"}";
     }
-    return "ERROR";
 }
 public void getWaiting(){
     String res = makeCall("action=getwaiting");
